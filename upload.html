@@ -1,0 +1,92 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload</title>
+
+    <!-- Cognito scripts-->
+    <script src="../js/amazon-cognito-identity.min.js"></script>
+    <script type="module" src="../js/config.js"></script>
+    <script src="../js/aws-sdk-2.918.0.min.js"></script>
+</head>
+<style>
+    .hidden {
+        display: none;
+    }
+
+    .style1 {
+            color: #F28B00;
+            text-align: center;
+            margin: 10;
+            padding: 10;
+            font-size: 80px;
+        }
+
+    .style2 {
+        font-size: 20px;
+    }
+
+</style>
+<body>
+    <h1 align="center" class="style1">Select An Image</h1>
+    <input type="file" id="fileInput" class="hidden" onchange="handleFileSelect(event)" />
+    <table class="style2" width="500" align="center" border="1" cellpadding="10" cellspacing="0">
+        <tr>
+            <td>
+                <button type="button" onclick="uploadButton()">Upload</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img id="imagePreview" src="" alt="" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <textarea id="info" rows='5' cols='60'>  </textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button type="button" onclick="submitImage()">Submit</button>
+            </td>
+        </tr>
+    </table> <!-- 添加闭合标签 -->
+</body>
+
+<script>
+    let imageData = '';
+
+    function uploadButton() {
+        document.getElementById('fileInput').click();
+    }
+
+    function handleFileSelect(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            imageData = event.target.result;
+            document.getElementById('imagePreview').src = imageData;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function submitImage() {
+        const url = 'https://upt0on4bnl.execute-api.us-east-1.amazonaws.com/czystage1/upload';
+        const data = {
+            "body": JSON.stringify({ "image": imageData })
+        };
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error(error));
+    }
+</script>
