@@ -11,13 +11,12 @@ import uuid
 dynamodb = boto3.client('dynamodb')
 s3 = boto3.client('s3')
 TABLE_NAME = 'assignment2tags'
-image_bucket = 'bucket-for-images'
-yolo_bucket = 'yolo-configs'
+image_bucket = 'bucket-for-images-5225'
+yolo_bucket = 'yolo-configs-5225'
 
 # construct the argument parse and parse the arguments
-confthres = 0.3
+confthres = 0.1
 nmsthres = 0.1
-
 
 def get_labels(labels_path):
     # load the COCO class labels our YOLO model was trained on
@@ -133,7 +132,7 @@ def do_prediction(image, net, LABELS):
                                                                                           boxes[i][1],
                                                                                           boxes[i][2],
                                                                                           boxes[i][3]))
-    return list(set(tags))
+    return list(tags)
 
 
 ## Yolov3-tiny versrion
@@ -168,22 +167,40 @@ def lambda_handler(event, context):
 
     tags = detect_image(image_key)
     print("[INFO] detect over")
-    list_key = []
-    for i in range(len(tags)):
-        dict = {}
-        tags[i] = tags[i].replace('\r', '')
-        dict['S'] = tags[i]
-        list_key.append(dict)
+
+    # count the occurrences of each tag
+    counts = {}
+    for tag in tags:
+        if tag in counts:
+            counts[tag] += 1
+        else:
+            counts[tag] = 1
+
+    # create a list of dictionaries with tag and count
+    tags_list = []
+    for tag, count in counts.items():
+        tag_dict = {}
+        tag_dict['S'] = tag
+        count_dict = {}
+        count_dict['N'] = str(count)
+        tag_list = []
+        tag_list.append(tag_dict)
+        tag_list.append(count_dict)
+        tags_dict = {}
+        tags_dict['L']= tag_list
+        tags_list.append(tags_dict)
 
     data = {}
     data['id'] = {'S' : str(uuid.uuid4())}
-    data['tags'] = {'L': list_key}
+    data['tags'] = {'L': tags_list}
     data['s3-url'] = {'S': 'https://' + image_bucket + '.s3.amazonaws.com/' + image_key}
+
+    print(data)
+
     response = dynamodb.put_item(
         Item=data,
         TableName=TABLE_NAME
     )
-    print(data)
     return {
         'statusCode': 200,
         'body': json.dumps(response)
