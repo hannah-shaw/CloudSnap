@@ -14,27 +14,90 @@
     .hidden {
         display: none;
     }
+    body {
+        background: linear-gradient(to bottom, #dddada, #65c6e4);
+      }
 
     .style1 {
-            color: #F28B00;
+            color: #292828;
             text-align: center;
             margin: 10;
             padding: 10;
             font-size: 80px;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         }
 
     .style2 {
         font-size: 20px;
     }
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100vh;
+      }
+      
+      .button-section {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+      
+      #uploadButton,
+      #submitButton {
+        background-color: linear-gradient(to bottom, #69c9e6, #9c9494);
+        color: #292828;
+        font-weight: bold;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: medium;
+        width: 150px;
+        height: 50px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      
+      #uploadButton:hover,
+      #submitButton:hover {
+        background-color: #ffffff;
+      }
+      
+      textarea {
+        background-color:linear-gradient(to bottom, #69c9e6, #9c9494);
+        margin-top: 20px;
+        margin-bottom: 20px;
+        resize: none;
+        width: 100%;
+        padding: 5px;
+        font-size: small;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+      }
+      .image-preview-section {
+        width: 500px;
+        height: 500px;
+        border: 1px solid rgb(150, 145, 145);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+      
 
 </style>
-<body>
+<!-- <body>
     <h1 align="center" class="style1">Select An Image</h1>
     <input type="file" id="fileInput" class="hidden" onchange="handleFileSelect(event)" />
     <table class="style2" width="500" align="center" border="1" cellpadding="10" cellspacing="0">
         <tr>
             <td>
-                <button type="button" onclick="uploadButton()">Upload</button>
+                <button type="button" onclick="uploadButton()" id="uploadButton">Upload</button>
             </td>
         </tr>
         <tr>
@@ -52,8 +115,25 @@
                 <button type="button" onclick="submitImage()">Submit</button>
             </td>
         </tr>
-    </table> <!-- 添加闭合标签 -->
-</body>
+    </table> 
+</body> -->
+<body>
+    <div class="container">
+        <h1 class="style1">Select An Image for Tagging</h1>
+        <input type="file" id="fileInput" class="hidden" onchange="handleFileSelect(event)" />
+        <div class="button-section">
+            <button type="button" onclick="uploadButton()" id="uploadButton">Upload</button>
+            <button type="button" onclick="submitImage()" id="submitButton">Submit</button>
+        </div>
+        <div class="image-preview-section">
+            <img id="imagePreview" src="" alt="" />
+        </div>
+        <div class="info-section">
+            <textarea id="info" rows='5' cols='60' placeholder="Enter description about this Image.(Optional)"></textarea>
+        </div>
+    </div>
+  </body>
+  
 
 <script>
     let imageData = '';
