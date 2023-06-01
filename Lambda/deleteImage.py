@@ -25,7 +25,7 @@ def lambda_handler(event, context):
                 responseDB = table.delete_item(Key={'id': id  })
             
             object_key = url.split('/')[-1]
-            responseS3 = s3.Object('a2-bucket-for-images', object_key).delete()
+            responseS3 = s3.Object('bucket-for-images-5225', object_key).delete()
             return {
                 'statusCode': 200,
                 'body': 'Successfully deleted.'
