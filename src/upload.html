@@ -1,0 +1,146 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload</title>
+
+    <!-- Cognito scripts-->
+    <script src="../js/amazon-cognito-identity.min.js"></script>
+    <script type="module" src="../js/config.js"></script>
+    <script src="../js/aws-sdk-2.918.0.min.js"></script>
+</head>
+<style>
+    .hidden {
+        display: none;
+    }
+    body {
+        background: linear-gradient(to bottom, #dddada, #65c6e4);
+      }
+
+    .style1 {
+            color: #292828;
+            text-align: center;
+            margin: 10;
+            padding: 10;
+            font-size: 80px;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+
+    .style2 {
+        font-size: 20px;
+    }
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100vh;
+      }
+      
+      .button-section {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+      
+      #uploadButton,
+      #submitButton {
+        background-color: linear-gradient(to bottom, #69c9e6, #9c9494);
+        color: #292828;
+        font-weight: bold;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: medium;
+        width: 150px;
+        height: 50px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      
+      #uploadButton:hover,
+      #submitButton:hover {
+        background-color: #ffffff;
+      }
+      
+      textarea {
+        background-color:linear-gradient(to bottom, #69c9e6, #9c9494);
+        margin-top: 20px;
+        margin-bottom: 20px;
+        resize: none;
+        width: 100%;
+        padding: 5px;
+        font-size: small;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+      }
+      .image-preview-section {
+        width: 500px;
+        height: 500px;
+        border: 1px solid rgb(150, 145, 145);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+      
+
+</style>
+<body>
+    <div class="container">
+        <h1 class="style1">Select An Image for Tagging</h1>
+        <input type="file" id="fileInput" class="hidden" onchange="handleFileSelect(event)" />
+        <div class="button-section">
+            <button type="button" onclick="uploadButton()" id="uploadButton">Upload</button>
+            <button type="button" onclick="submitImage()" id="submitButton">Submit</button>
+        </div>
+        <div class="image-preview-section">
+            <img id="imagePreview" src="" alt="" />
+        </div>
+        <div class="info-section">
+            <textarea id="info" rows='5' cols='60' placeholder="Enter description about this Image.(Optional)"></textarea>
+        </div>
+    </div>
+  </body>
+  
+
+<script>
+    let imageData = '';
+
+    function uploadButton() {
+        document.getElementById('fileInput').click();
+    }
+
+    function handleFileSelect(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            imageData = event.target.result;
+            document.getElementById('imagePreview').src = imageData;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function submitImage() {
+        const url = 'https://upt0on4bnl.execute-api.us-east-1.amazonaws.com/czystage1/upload';
+        const data = {
+            "body": JSON.stringify({ "image": imageData })
+        };
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error(error));
+    }
+</script>

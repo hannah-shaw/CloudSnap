@@ -1,0 +1,123 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Begin</title>
+    <!-- Cognito scripts-->
+    <script src="../js/amazon-cognito-identity.min.js"></script>
+    <script type="module" src="../js/config.js"></script>
+    <script src="../js/aws-sdk-2.918.0.min.js"></script>
+</head>
+<style>
+    body {
+        background: linear-gradient(to bottom, #ebe8e8, #65c6e4);
+      }
+    .container {
+        background-image: url(src.jpg);
+        background-size: cover;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100vh;
+      }
+      
+    .header {
+        opacity: 0.5;
+        background: linear-gradient(to bottom, #ebe8e8, #65c6e4);
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: space-between;
+        align-items:normal;
+        width: 100%;
+        top: 0;
+        padding: 20px;
+        background-color: white;
+      }
+      
+    .user-section {
+        opacity: 0.5;
+        display:flex;
+        position: relative;
+        justify-content:right;
+        margin-right: 10px;
+        align-items: right;
+        background-color: #e6dfdf;
+        padding: 5px 10px;
+        border-radius: 5px;
+        position: absolute;
+        top: 50;
+        right: 50;
+        margin: 20px;
+        padding: 10px;
+      }
+      
+    #username {
+        color: #292828;
+        font-weight: bold;
+        font-size: 14px;
+        text-align: center;
+      }
+      
+    .button-section {
+        display: flex;
+        gap: 70px;
+        margin-top: 50px;
+      }
+    #loginButton:hover,
+    #registerButton:hover {
+        background-color: #96daf5;
+    }
+    #loginButton,
+    #registerButton {
+        background-color: linear-gradient(to bottom, #69c9e6, #9c9494);
+        color: #292828;
+        font-weight: bold;
+        width: 200px;
+        height: 50px;
+        font-family: 'Courier New', Courier, monospace;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: medium;
+    }
+
+    .style1 {
+        color: #292828;
+        text-align:center;
+        margin: 10;
+        padding: 10;
+        font-size: 80px;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+    .style2 {
+        color: #292828;
+        text-align:right;
+        margin: 10;
+        padding: 10;
+        font-size: 50px;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+</style>
+
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="style1" style="text-align: center;">CloudSnap</h1>
+            <h3 class="style2" style="text-align: left;">Tag Your Photos</h3>
+            </div>
+            <div class="button-section">
+                <button type="button" onclick="loginButton()" id="loginButton">Login</button>
+                <button type="button" onclick="registerButton()" id="registerButton">Register</button>
+            </div>
+        </div>
+        <div class="user-section-wrapper">
+            <div class="user-section">
+                <span id="username">Welcome!</span>
+            </div>
+        </div>
+  </body>
+  
