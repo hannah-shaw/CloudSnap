@@ -9,6 +9,34 @@
     <script src="../js/amazon-cognito-identity.min.js"></script>
     <script type="module" src="../js/config.js"></script>
     <script src="../js/aws-sdk-2.918.0.min.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"></script>
+    <script>
+        // 初始化AWS SDK
+        AWS.config.region = 'us-east-1'; // 设置AWS区域
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: 'YOUR_IDENTITY_POOL_ID', // 替换为您的身份池ID
+            Logins: {
+                'cognito-idp.<region>.amazonaws.com/<user_pool_id>': sessionStorage.getItem('identityPoolIdToken') 
+                    // 将<region>和<user_pool_id>替换为您的用户池区域和ID
+            }
+        });
+
+        // 检查用户是否已登录
+        if (!sessionStorage.getItem('identityPoolIdToken')) {
+            alert('Please Login to AWS to access this page!');
+            window.location.href = 'login.html'; // 将此处替换为您的登录页面URL
+        }
+        // 获取身份池ID
+        AWS.config.credentials.get(function(err) {
+            if (err) {
+                console.log('Error: ' + err);
+            } else {
+                console.log('Identity Pool ID: ' + AWS.config.credentials.identityId);
+                // 在此处使用您的AWS凭证访问资源
+            }
+        });
+        
+    </script>
 </head>
 <style>
     .hidden {
@@ -31,6 +59,8 @@
         font-size: 20px;
     }
     .container {
+        background-image: url(src.jpg);
+        background-size: cover;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -41,7 +71,7 @@
       
       .button-section {
         display: flex;
-        gap: 10px;
+        gap: 100px;
         margin-top: 20px;
         margin-bottom: 20px;
       }
@@ -66,6 +96,7 @@
       }
       
       textarea {
+        opacity: 0.8;
         background-color:linear-gradient(to bottom, #69c9e6, #9c9494);
         margin-top: 20px;
         margin-bottom: 20px;
@@ -76,9 +107,12 @@
         font-family: Verdana, Geneva, Tahoma, sans-serif;
       }
       .image-preview-section {
+        opacity: 0.8;
+        background-image: url(img2.jpg);
+        background-size:calc(100%);
         width: 500px;
         height: 500px;
-        border: 1px solid rgb(150, 145, 145);
+        border: 6px solid rgb(150, 145, 145);
         display: flex;
         justify-content: center;
         align-items: center;

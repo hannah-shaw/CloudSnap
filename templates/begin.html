@@ -1,5 +1,6 @@
 <html lang="en">
 <head>
+    <link rel="icon" href="{{ url_for('static', filename='./favicon.ico') }}">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +15,7 @@
         background: linear-gradient(to bottom, #ebe8e8, #65c6e4);
       }
     .container {
-        background-image: url(src.jpg);
+        background-image: url("{{ url_for('static', filename='./src.jpg') }}");
         background-size: cover;
         display: flex;
         flex-direction: column;
@@ -25,7 +26,7 @@
       }
       
     .header {
-        opacity: 0.5;
+        opacity: 0.7;
         background: linear-gradient(to bottom, #ebe8e8, #65c6e4);
         display: flex;
         flex-direction: column-reverse;
@@ -116,8 +117,18 @@
         </div>
         <div class="user-section-wrapper">
             <div class="user-section">
-                <span id="username">Welcome!</span>
+                <span id="username">
+                    <a href="/upload">Welcome!</a>
+                </span>
             </div>
         </div>
   </body>
+  <script>
+    function loginButton() {
+        window.location.href = 'https://czy.auth.us-east-1.amazoncognito.com/login?client_id=4itr5k8v6jebn9u73tgdkn6had&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fexample.com%2Fcallback';
+    }
+    function registerButton() {
+        window.location.href = 'https://czy.auth.us-east-1.amazoncognito.com/signup?client_id=4itr5k8v6jebn9u73tgdkn6had&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fexample.com%2Fcallback';
+    }   
+</script>
   
