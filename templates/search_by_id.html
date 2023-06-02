@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>根据id搜索图片页面</title>
+</head>
+<body>
+    <h1>根据id搜索图片页面</h1>
+    <input type="text" id="id-input" placeholder="请输入id">
+    <button onclick="query()">查询</button>
+    <div id="result"></div>
+
+    <button onclick="getData()">获取所有检测数据</button>
+    <div id="data"></div>
+
+    <script>
+        function query() {
+            var id = document.getElementById("id-input").value;
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("result").innerHTML = this.responseText;
+                }
+            };
+            xhr.open("POST", "https://pmvtacvqqimhmvgno7scdeo4le0yxqoa.lambda-url.us-east-1.on.aws/", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(JSON.stringify({id: id}));
+        }
+
+        function getData() {
+            var url= 'https://wsngl33npa26ay5wr3a4bfx2ry0mxzuv.lambda-url.us-east-1.on.aws/'
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('data').innerHTML = JSON.stringify(data, null, 2);
+                });
+        }
+    </script>
+</body>
+</html>
