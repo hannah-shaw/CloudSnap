@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Update Tags</title>
+  </head>
+  <body>
+    <label for="idInput">ID:</label>
+    <input type="text" id="idInput" /><br />
+    <label for="tagInput">Tag:</label>
+    <input type="text" id="tagInput" />
+    <label for="countInput">Count:</label>
+    <input type="number" id="countInput" />
+    <button id="addTagButton">Add Tag</button><br />
+    <div id="tags"></div>
+    <button id="updateButton">Update Tags</button>
+    <pre id="data"></pre>
+
+    <script>
+      let tags = [];
+
+      function updateTagsDisplay() {
+        const tagsElement = document.getElementById("tags");
+        tagsElement.innerHTML = "";
+        tags.forEach((tag, index) => {
+          const tagElement = document.createElement("div");
+          tagElement.textContent = `${tag[0]}: ${tag[1]}`;
+          const deleteButton = document.createElement("button");
+          deleteButton.textContent = "Delete";
+          deleteButton.addEventListener("click", () => {
+            tags.splice(index, 1);
+            updateTagsDisplay();
+          });
+          tagElement.appendChild(deleteButton);
+          tagsElement.appendChild(tagElement);
+        });
+      }
+
+      document.getElementById("addTagButton").addEventListener("click", function() {
+        const tag = document.getElementById("tagInput").value;
+        const count = document.getElementById("countInput").value;
+        tags.push([tag, parseInt(count)]);
+        updateTagsDisplay();
+        document.getElementById("tagInput").value = "";
+        document.getElementById("countInput").value = "";
+      });
+
+      document.getElementById("updateButton").addEventListener("click", function() {
+        const id = document.getElementById("idInput").value;
+        var data = {
+          id: id,
+          tags: tags
+        };
+
+        fetch("https://cplmfbqnxpb4s2t43npejlbjrq0nhyyh.lambda-url.us-east-1.on.aws/", {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+          .then(response => response.json())
+          .then(data => {
+            document.getElementById('data').innerHTML = JSON.stringify(data, null, 2);
+          })
+          .catch(error => console.error(error));
+      });
+    </script>
+  </body>
+</html>
