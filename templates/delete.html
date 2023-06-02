@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head> <meta charset="UTF-8">
+    <title>delete</title>
+  </head>
+  <body>
+  <button onclick="deleteImage()">delete</button>
+    <div id="data">
+
+    </div>
+  <script>
+    function deleteImage(url) {
+      const apiUrl = "https://1eqc42irql.execute-api.us-east-1.amazonaws.com/dev/api/deleteimagebytags"
+      url = 'https://bucket-for-images-5225.s3.amazonaws.com/000000007454.jpg'
+      fetch(apiUrl, {
+        method: "DELETE",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          httpMethod: "DELETE",
+          queryStringParameters: {
+            "s3-url": url
+          }
+        })
+      })
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error(error));
+    }
+</script>
+  </body>
+</html>
