@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload</title>
-
+    <link rel="icon" href="{{ url_for('static', filename='./favicon.ico') }}">
     <!-- Cognito scripts
     <script src="../js/amazon-cognito-identity.min.js"></script>
     <script type="module" src="../js/config.js"></script>
@@ -23,7 +23,7 @@
         // 检查用户是否已登录
         if (!sessionStorage.getItem('identityPoolIdToken')) {
             alert('Please Login to AWS to access this page!');
-            window.location.href = 'login.html'; // 将此处替换为您的登录页面URL
+            window.location.href = '/'; // 将此处替换为您的登录页面URL
         }
         // 获取身份池ID
         AWS.config.credentials.get(function(err) {
@@ -144,7 +144,8 @@
 
 <script>
     let imageData = '';
-    let filename = ''
+    let imagebase64 = '';
+    let filename = 'test.jpg';
     function uploadButton() {
         document.getElementById('fileInput').click();
     }
@@ -156,15 +157,15 @@
             imageData = event.target.result;
             document.getElementById('imagePreview').src = imageData;
         };
-        reader.readAsDataURL(file);
+        imagebase64 = reader.readAsDataURL(file).split(',')[1];
     }
 
     function submitImage() {
-        const url = 'https://1eqc42irql.execute-api.us-east-1.amazonaws.com/cloudsnap/api/upload2s3';
+        const url = 'https://adpb7zajb2.execute-api.us-east-1.amazonaws.com/Upload2S3/api/upload';
         const data = {
-            "body": JSON.stringify({ "image": imageData })
-        };
-        
+                "imageData": imagebase64,
+                "filename": filename
+            };
         fetch(url, {
             method: 'POST',
             headers: {
@@ -172,8 +173,15 @@
             },
             body: JSON.stringify(data)
         })
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error(error));
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if (data ) {
+                alert(data); // 显示响应消息
+            } else {
+                alert('Image upload failed.'); // 显示上传失败的消息
+            }
+        })
+        .catch(error => console.error('Error:', error));
     }
 </script>
