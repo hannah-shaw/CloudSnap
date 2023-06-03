@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload</title>
 
-    <!-- Cognito scripts-->
+    <!-- Cognito scripts
     <script src="../js/amazon-cognito-identity.min.js"></script>
     <script type="module" src="../js/config.js"></script>
-    <script src="../js/aws-sdk-2.918.0.min.js"></script>
+    <script src="../js/aws-sdk-2.918.0.min.js"></script>-->
     <script>
         // 初始化AWS SDK
         AWS.config.region = 'us-east-1'; // 设置AWS区域
@@ -58,7 +58,7 @@
         font-size: 20px;
     }
     .container {
-        background-image: url(src.jpg);
+        background-image: url("{{ url_for('static', filename='./src.jpg') }}");
         background-size: cover;
         display: flex;
         flex-direction: column;
@@ -107,7 +107,7 @@
       }
       .image-preview-section {
         opacity: 0.8;
-        background-image: url(img2.jpg);
+        background-image: url({{ url_for('static', filename='./img2.jpg') }});
         background-size:calc(100%);
         width: 500px;
         height: 500px;
@@ -144,7 +144,7 @@
 
 <script>
     let imageData = '';
-
+    let filename = ''
     function uploadButton() {
         document.getElementById('fileInput').click();
     }
@@ -160,11 +160,11 @@
     }
 
     function submitImage() {
-        const url = 'https://upt0on4bnl.execute-api.us-east-1.amazonaws.com/czystage1/upload';
+        const url = 'https://1eqc42irql.execute-api.us-east-1.amazonaws.com/cloudsnap/api/upload2s3';
         const data = {
             "body": JSON.stringify({ "image": imageData })
         };
-
+        
         fetch(url, {
             method: 'POST',
             headers: {

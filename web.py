@@ -6,6 +6,13 @@ app = Flask(__name__)
 def begin():    
     return render_template('begin.html')
 
+@app.route('/home')
+def home():
+    return render_template('homePage.html')
+@app.route('/search')
+def search():    
+    return render_template('searchPage.html')
+
 @app.route('/getUrlsByTags')
 def test():
     return render_template("getUrlsByTags.html")
