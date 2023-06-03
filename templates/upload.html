@@ -7,6 +7,30 @@
     <link rel="icon" href="{{ url_for('static', filename='./favicon.ico') }}">
 </head>
 <style>
+    .user-section {
+        opacity: 0.5;
+        display:flex;
+        position: relative;
+        justify-content:right;
+        margin-right: 10px;
+        align-items: right;
+        background-color: #e6dfdf;
+        padding: 5px 10px;
+        border-radius: 5px;
+        position: absolute;
+        top: 50;
+        right: 50;
+        margin: 20px;
+        padding: 10px;
+      }
+      
+    #username {
+        color: #292828;
+        font-weight: bold;
+        font-size: 14px;
+        text-align: center;
+      }
+      
     .hidden {
         display: none;
     }
@@ -108,6 +132,13 @@
             <textarea id="info" rows='5' cols='60' placeholder="Enter description about this Image.(Optional)"></textarea>
         </div>
     </div>
+    <div class="user-section-wrapper">
+        <div class="user-section">
+            <span id="username">
+                <a href="/home">Welcome!</a>
+            </span>
+        </div>
+    </div>
   </body>
   
 
@@ -144,7 +175,6 @@
             body: JSON.stringify(data)
         }).then(response => response.json())
         .then(data => {
-            console.log(data);
             if (data) {
                 alert("Upload Successfully"); // 显示响应消息
             } else {
