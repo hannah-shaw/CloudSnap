@@ -10,12 +10,13 @@
     <meta name="description" content="Source code generated using layoutit.com">
     <meta name="author" content="LayoutIt!">
 
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
 
   </head>
   <body>
 
-    <div class="container-fluid">
+    <div class="container-fluid" background-image: url("{{ url_for('static', filename='./src.jpg') }}")>
 	<div class="row">
 		<div class="col-md-12">
 			<nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -25,17 +26,16 @@
 				</button> <a class="navbar-brand" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FIT5225Assignment2</font></font></a>
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="navbar-nav">
-						<li class="nav-item">
-							 <a class="nav-link" href="homePage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Upload</font></font></a>
-						</li>
 						<li class="nav-item active">
-							 <a class="nav-link" href="searchPage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Search</font></font><span class="sr-only"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（当时的）</font></font></span></a>
+							 <a class="nav-link" href="/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Upload</font></font><span class="sr-only"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（当时的）</font></font></span></a>
+						</li>
+						<li class="nav-item">
+							 <a class="nav-link" href="/search"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Search</font></font></a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Edit</font></font></a>
 					   </li>
 					</ul>
-					
 					<ul class="navbar-nav ml-md-auto">
 						<li class="nav-item active">
 							 <a class="nav-link" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Logout</font></font><span class="sr-only"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（当时的）</font></font></span></a>
@@ -46,23 +46,21 @@
 			</nav>
 			<div class="jumbotron">
 				<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-					Tag Search
+					Image Upload
 				</font></font></h2>
 				<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-					Input your tag here
+					Welcome to our FIT5225 Assignment2 work. Here you can upload an image.
 				</font></font></p>
-				<form class="form-inline">
-					<input class="form-control mr-sm-2" type="text"> 
-					<button class="btn btn-primary my-2 my-sm-0" type="submit"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-						Search
-					</font></font></button>
-				</form>
+				<p>
+					<a class="btn btn-primary btn-large" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Upload</font></font></a>
+				</p>
 			</div>
 		</div>
 	</div>
 </div>
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
   </body>
 </html>

@@ -5,10 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Begin</title>
-    <!-- Cognito scripts-->
+    <!-- Cognito scripts
     <script src="../js/amazon-cognito-identity.min.js"></script>
     <script type="module" src="../js/config.js"></script>
-    <script src="../js/aws-sdk-2.918.0.min.js"></script>
+    <script src="../js/aws-sdk-2.918.0.min.js"></script>-->
 </head>
 <style>
     body {
@@ -125,10 +125,10 @@
   </body>
   <script>
     function loginButton() {
-        window.location.href = 'https://czy.auth.us-east-1.amazoncognito.com/login?client_id=4itr5k8v6jebn9u73tgdkn6had&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fexample.com%2Fcallback';
+        window.location.href = 'https://czy.auth.us-east-1.amazoncognito.com/login?client_id=4itr5k8v6jebn9u73tgdkn6had&response_type=code&scope=email+openid+phone&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fupload';
     }
     function registerButton() {
-        window.location.href = 'https://czy.auth.us-east-1.amazoncognito.com/signup?client_id=4itr5k8v6jebn9u73tgdkn6had&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fexample.com%2Fcallback';
+        window.location.href = 'https://czy.auth.us-east-1.amazoncognito.com/signup?client_id=4itr5k8v6jebn9u73tgdkn6had&response_type=code&scope=email+openid+phone&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fupload';
     }   
 </script>
   
