@@ -10,15 +10,13 @@
 
     <script>
         function getData(data) {
-            // 替换为您的 Lambda 函数 URL
-            // var url = 'https://hn3clukq2ir4cmogineomvkoem0uhswd.lambda-url.us-east-1.on.aws/'
-            var url = 'https://1eqc42irql.execute-api.us-east-1.amazonaws.com/dev/api/getUrlsByTags'
+            var url = 'https://92dso1b1yl.execute-api.us-east-1.amazonaws.com/dev/geturlsbytags'
             var data= {
                   "parameters": {
                     "tags": [
                       {
                         "tag": "person",
-                        "count": 2
+                        "count": 1
                       }
                     ]
                   }
