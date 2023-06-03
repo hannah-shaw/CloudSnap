@@ -53,7 +53,11 @@
 							<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
 								<strong>description:&nbsp;&nbsp;&nbsp;</strong>Input the URL of an image and the image and relevant entries will be removed from s3 and the database.
 							</font></font></p>
-							
+							<input id="imageURL" class="form-control mr-sm-2" type="text">
+							<br/>
+							<button onclick="imageDelete()" class="btn btn-danger btn-block" type="button"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+								Delete
+							</font></font></button>
 						</div>
 					</div>
 					<div class="col-md-12">
@@ -78,72 +82,38 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 	<script>
-		function searchByTag(data) {
-            var url = 'https://92dso1b1yl.execute-api.us-east-1.amazonaws.com/dev/geturlsbytags'
-			var tagInput1 = document.getElementById("tagInput1").value;
-			var tagInput2 = document.getElementById("tagInput2").value;
-			var tagInput3 = document.getElementById("tagInput3").value;
-			var tagNumber1 = Number(document.getElementById("tagNumber1").value);
-			var tagNumber2 = Number(document.getElementById("tagNumber2").value);
-			var tagNumber3 = Number(document.getElementById("tagNumber3").value);
-			if(tagInput2==""&&tagInput3==""){
-				var data= {
-                  "parameters": {
-                    "tags": [
-                      {
-                        "tag": tagInput1,
-                        "count": tagNumber1,
-					  },
-                    ]
-                  }
-                }
-			}
-			else if(tagInput3==""){
-				var data= {
-                  "parameters": {
-                    "tags": [
-                      {
-                        "tag": tagInput1,
-                        "count": tagNumber1,
-					  },
-					  {
-                        "tag": tagInput2,
-                        "count": tagNumber2,
-					  },
-                    ]
-                  }
-                }
-			}
-			else{
-				var data= {
-                  "parameters": {
-                    "tags": [
-                      {
-                        "tag": tagInput1,
-                        "count": tagNumber1,
-					  },
-					  {
-                        "tag": tagInput2,
-                        "count": tagNumber2,
-					  },
-					  {
-                        "tag": tagInput3,
-                        "count": tagNumber3,
-					  }
-                    ]
-                  }
-                }
-			}
-            console.log(data)
-			document.getElementById("inputData").innerHTML = "Input: " + tagInput1 + " " + tagInput2 + " " + tagInput3;
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            }).then(res => res.json())
-            .then(data => console.log(data))
+		function imageDelete() {
+            const apiUrl = " https://92dso1b1yl.execute-api.us-east-1.amazonaws.com/dev/deleteimage"
+      		var imageURL = document.getElementById("imageURL").value;
+			fetch(apiUrl, {
+				method: "DELETE",
+				headers: {
+				'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+				httpMethod: "DELETE",
+				queryStringParameters: {
+					"s3-url": imageURL
+				}
+				})
+			})
+			.then(response => response.json())
+			.then(data => {
+				console.log(data);
+				console.log(data.statusCode)
+				if(data.statusCode == 200){
+					alert('Delete Success!');
+				}
+				else if(data.statusCode == 400){
+					alert('No match image!');
+				}
+				else{
+					alert('Delete Failed!');
+				}
+				console.log(typeof(data.statusCode));
+				document.getElementById("imageURL").value = "";
+			})
+			.catch(error => console.error(error));
         }
 	</script>
   </body>
