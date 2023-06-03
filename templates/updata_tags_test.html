@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>发送数据</title>
+  </head>
+  <body>
+    <button onclick="sendData()">发送数据</button>
+    <div id="response"></div>
+
+    <script>
+      function sendData() {
+        const url = 'https://cplmfbqnxpb4s2t43npejlbjrq0nhyyh.lambda-url.us-east-1.on.aws/';
+        const data = {
+          body:
+            '{"url": "https://bucket-for-images-5225.s3.amazonaws.com/000000023401.jpg", "type": 1, "tags": [{"tag": "person", "count": 9}, {"tag": "alex", "count": 10}]}',
+        };
+
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.text())
+          .then((text) => {
+            document.getElementById('response').innerHTML = text;
+          });
+      }
+    </script>
+  </body>
+</html>
