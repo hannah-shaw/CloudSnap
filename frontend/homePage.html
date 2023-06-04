@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Bootstrap 4, from LayoutIt!</title>
+    <title>HomePage - FIT5225Assignment2</title>
 
     <meta name="description" content="Source code generated using layoutit.com">
     <meta name="author" content="LayoutIt!">
@@ -33,7 +33,7 @@
 							 <a class="nav-link" href="searchPage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Search</font></font></a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Edit</font></font></a>
+							<a class="nav-link" href="editPage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Edit</font></font></a>
 					   </li>
 					</ul>
 					<ul class="navbar-nav ml-md-auto">
@@ -51,9 +51,24 @@
 				<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
 					Welcome to our FIT5225 Assignment2 work. Here you can upload an image.
 				</font></font></p>
-				<p>
-					<a class="btn btn-primary btn-large" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Upload</font></font></a>
-				</p>
+
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+					  <button id="imageSubmit" onclick="submitImage()" class="btn btn-primary btn-sm" disabled="true"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+						Submit
+					</font></font></button>
+					</div>
+					<div class="custom-file">
+					  <input type="file" class="custom-file-input" id="imageInput" onchange="handleFileSelect(event)" aria-describedby="inputGroupFileAddon01">
+					  <label class="custom-file-label" id="imageInputLabel" for="imageInput">Choose file</label>
+					</div>
+					
+				</div>
+			
+				
+				<div class="image-preview-section">
+					<img id="imagePreview" src="" alt="" />
+				</div>
 			</div>
 		</div>
 	</div>
@@ -62,5 +77,49 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/scripts.js"></script>
+	<script>
+		let imageData = '';
+	
+		let filename = '';
+		function uploadButton() {
+			document.getElementById('fileInput').click();
+		}
+	
+		function handleFileSelect(event) {
+			const file = event.target.files[0];
+			filename = event.target.files[0].name;
+			const reader = new FileReader();
+			reader.onload = (event) => {
+				imageData = event.target.result;
+				document.getElementById('imagePreview').src = imageData;
+			};
+			document.getElementById("imageInputLabel").innerHTML = filename;
+			document.getElementById("imageSubmit").removeAttribute("disabled");
+			reader.readAsDataURL(file);   
+		}
+	
+		function submitImage() {
+			const url = 'https://zfn0ptl3vb.execute-api.us-east-1.amazonaws.com/Upload2S3/api/upload';
+			const data = {
+					"imageData": imageData.split(',')[1],
+					"filename": filename
+				};
+			fetch(url, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			}).then(response => response.json())
+			.then(data => {
+				if (data) {
+					alert("Upload Successfully"); // 显示响应消息
+				} else {
+					alert('Image upload failed.'); // 显示上传失败的消息
+				}
+			})
+			.catch(error => console.error('Error:', error));;
+		}
+	</script>
   </body>
 </html>
