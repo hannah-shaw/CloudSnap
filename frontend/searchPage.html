@@ -41,7 +41,6 @@
 		</div>
 	</nav>
 	<div class="container-fluid">
-		
 		<div class="row">
 			<div class="col-md-12">
 				<div class="row">
@@ -87,7 +86,7 @@
 					<div class="col-md-12">
 						<div class="jumbotron">
 							<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-								URL Result
+								Tag Search Result
 							</font></font></h2>
 							<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
 								<strong>description:&nbsp;&nbsp;&nbsp;</strong> If you have only one tag input, please enter the tag in the first input low. And enter the second input low only if you have another tag and so on...Please enter multiple tags in order.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -113,10 +112,113 @@
 		</div>
 	</div>
 
+	<!-- 从这里开始是用Image搜Image -->
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-12">
+						<!-- 上传Image部分 -->
+						<div class="jumbotron">
+							<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+								Image Search
+							</font></font></h2>
+							<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+								Choose your image here 
+							</font></font></p>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+								  <button id="imageSubmit" onclick="submitImage()" class="btn btn-primary btn-sm" disabled="true"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+									Search
+								</font></font></button>
+								</div>
+								<div class="custom-file">
+								  <input type="file" class="custom-file-input" id="imageInput" onchange="handleFileSelect(event)" aria-describedby="inputGroupFileAddon01">
+								  <label class="custom-file-label" id="imageInputLabel" for="imageInput">Choose file</label>
+								</div>
+								
+							</div>
+						
+							
+							<div class="image-preview-section">
+								<img id="imagePreview" src="" alt="" />
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="jumbotron">
+							<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+								Image Rearch Result
+							</font></font></h2>
+							<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+								<strong>description:&nbsp;&nbsp;&nbsp;</strong> The Tag your &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</font></font></p>
+							<div class="list-group">
+								 <a href="#" class="list-group-item list-group-item-action active">Your search URL result by the input images are here :</a>
+								<div class="list-group-item">
+									<p id = "imageSearchInput">
+										No input.
+									</p>
+								</div>
+								<div class="list-group-item">
+									<p id = "imageSearchOutput">
+										No output.
+									</p>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 	<script>
+		//这一段是用Image搜索的
+		let imageData = '';
+		let filename = '';
+		function uploadButton() {
+			document.getElementById('fileInput').click();
+		}
+	
+		function handleFileSelect(event) {
+			const file = event.target.files[0];
+			filename = event.target.files[0].name;
+			const reader = new FileReader();
+			reader.onload = (event) => {
+				imageData = event.target.result;
+				document.getElementById('imagePreview').src = imageData;
+			};
+			document.getElementById("imageInputLabel").innerHTML = filename;
+			document.getElementById("imageSubmit").removeAttribute("disabled");
+			document.getElementById("imageSearchInput").innerHTML = "Input: " + filename;
+			reader.readAsDataURL(file);   
+		}
+	
+		function submitImage() {
+			const url = '/';
+			const data = {
+					
+				};
+			fetch(url, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			}).then(response => response.json())
+			.then(data => {
+				;
+			})
+			.catch(error => console.error('Error:', error));;
+		}
+	</script>
+	<script>
+		// 这一段是用Tag搜索的
 		function searchByTag(data) {
             var url = 'https://92dso1b1yl.execute-api.us-east-1.amazonaws.com/dev/geturlsbytags'
 			var tagInput1 = document.getElementById("tagInput1").value;
