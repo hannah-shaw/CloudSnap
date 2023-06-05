@@ -102,8 +102,12 @@
 									<p id = "outputData">
 										No output.
 									</p>
+									<ul id="tagSearchImageOutputArea" class="list-group list-group-flush">
+									</ul>
 								</div>
+								
 							</div>
+							
 						</div>
 
 					</div>
@@ -220,6 +224,8 @@
 	<script>
 		// 这一段是用Tag搜索的
 		function searchByTag(data) {
+			const tagSearchImageOutputArea = document.getElementById("tagSearchImageOutputArea");
+			tagSearchImageOutputArea.innerHTML = "";
             var url = 'https://92dso1b1yl.execute-api.us-east-1.amazonaws.com/dev/geturlsbytags'
 			var tagInput1 = document.getElementById("tagInput1").value;
 			var tagInput2 = document.getElementById("tagInput2").value;
@@ -289,7 +295,26 @@
 				console.log(res);
 				var outArrary = res.body.links;
 				for (const key in outArrary) {
-					document.getElementById("outputData").innerHTML += outArrary[key] + "<br>";
+					// document.getElementById("outputData").innerHTML += outArrary[key] + "<br>";
+					var outputNode = document.createElement("li");
+					outputNode.setAttribute("class","list-group-item");
+					var imageNode = document.createElement("img");
+					imageNode.setAttribute("src", outArrary[key]);
+					imageNode.setAttribute("class", "mr-3");
+					imageNode.setAttribute("height", "240");
+					var hNode = document.createElement("h5");
+					hNode.setAttribute("class","mt-0 mb-1");
+					var tempID = Number(key) + 1;
+					hNode.innerHTML = "Result " + tempID;
+					var pNode = document.createElement("p");
+					pNode.innerHTML = "URL: " + outArrary[key];
+					var mbodyNode = document.createElement("div");
+					mbodyNode.setAttribute("class","media-body");
+					mbodyNode.append(hNode);
+					mbodyNode.append(pNode);
+					outputNode.append(mbodyNode);
+					outputNode.append(imageNode);
+					tagSearchImageOutputArea.append(outputNode);
 				}
 			})
         }
