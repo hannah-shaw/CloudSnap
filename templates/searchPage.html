@@ -204,10 +204,9 @@
 		}
 	
 		function submitImage() {
-			const url = 'https://zfn0ptl3vb.execute-api.us-east-1.amazonaws.com/Upload2S3/api/imagedetectimage';
+			const url = '/';
 			const data = {
-				"imageData": imageData.split(',')[1],
-				"filename": filename
+					
 				};
 			fetch(url, {
 				method: 'POST',
@@ -217,7 +216,7 @@
 				body: JSON.stringify(data)
 			}).then(response => response.json())
 			.then(data => {
-				console.log(data.links); 
+				;
 			})
 			.catch(error => console.error('Error:', error));;
 		}
