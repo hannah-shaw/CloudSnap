@@ -185,6 +185,8 @@
 									<p id = "imageSearchOutput">
 										No output.
 									</p>
+									<ul id="imageSearchImageOutputArea" class="list-group list-group-flush">
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -221,6 +223,8 @@
 		}
 	
 		function submitImage() {
+			const imageSearchImageOutputArea = document.getElementById("imageSearchImageOutputArea");
+			imageSearchImageOutputArea.innerHTML = "";
 			const url = 'https://zfn0ptl3vb.execute-api.us-east-1.amazonaws.com/Upload2S3/api/imagedetectimage';
 			const data = {
 				"imageData": imageData.split(',')[1],
@@ -238,8 +242,33 @@
 				{
 					alert("Can't be found!");
 				}
-				else
-					console.log(data.links); 
+				else{
+					document.getElementById("imageSearchOutput").innerHTML = "Output: " + "<br>";
+					console.log(data.links);
+					var outArrary = data.links;
+					for (const key in outArrary) {
+					var outputNode = document.createElement("li");
+					outputNode.setAttribute("class","list-group-item");
+					var imageNode = document.createElement("img");
+					imageNode.setAttribute("src", outArrary[key]);
+					imageNode.setAttribute("class", "mr-3");
+					imageNode.setAttribute("height", "240");
+					var hNode = document.createElement("h5");
+					hNode.setAttribute("class","mt-0 mb-1");
+					var tempID = Number(key) + 1;
+					hNode.innerHTML = "Result " + tempID;
+					var pNode = document.createElement("p");
+					pNode.innerHTML = "URL: " + outArrary[key];
+					var mbodyNode = document.createElement("div");
+					mbodyNode.setAttribute("class","media-body");
+					mbodyNode.append(hNode);
+					mbodyNode.append(pNode);
+					outputNode.append(mbodyNode);
+					outputNode.append(imageNode);
+					imageSearchImageOutputArea.append(outputNode);
+				}
+			}
+					 
 			})
 			.catch(error => console.error('Error:', error));;
 		}
