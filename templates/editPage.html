@@ -4,14 +4,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>EditPage - FIT5225Assignment2</title>
-
     <meta name="description" content="Source code generated using layoutit.com">
     <meta name="author" content="LayoutIt!">
-
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
-
   </head>
   <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -36,7 +32,6 @@
 				<li class="nav-item active">
 					 <a class="nav-link" href="/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Logout</font></font><span class="sr-only"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（当时的）</font></font></span></a>
 				</li>
-
 			</ul>
 		</div>
 	</nav>
@@ -83,17 +78,20 @@
 							</div>
 							<div class="input-group mb-3">
 								<select class="custom-select" id="modeSelect">
-									<option value="1" selected>Add</option>
-									<option value="0">Remove</option>
-								  </select>
-								<input id="tagInput" type="text" class="form-control">
-								<input id="tagNumber" type="number" class="form-control mr-sm-2" value="1" min="1" max="99" step="1" data-decimals="2"/>
+									<option value="1">Remove</option>
+									<option value="0">Add</option>
+								</select>
+								<span> &nbsp;</span>
+								<input id="tagInput1" type="text" class="form-control">
+								<input id="tagNumber1" type="number" class="form-control mr-sm-2" value="1" min="1" max="99" step="1" data-decimals="2"/>
+								<input id="tagInput2" type="text" class="form-control">
+								<input id="tagNumber2" type="number" class="form-control mr-sm-2" value="1" min="1" max="99" step="1" data-decimals="2"/>
+								<input id="tagInput3" type="text" class="form-control">
+								<input id="tagNumber3" type="number" class="form-control mr-sm-2" value="1" min="1" max="99" step="1" data-decimals="2"/>
 							</div>
 							<button onclick="tagEdit()" class="btn btn-success btn-block" type="button"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
 								Edit
 							</font></font></button>
-
-
 						</div>
 					</div>
 				</div>
@@ -105,23 +103,78 @@
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 	<script>
 		function tagEdit() {
-			var editMode = document.getElementById("modeSelect").selectedIndex;
+			var editMode = document.getElementById("modeSelect");
+			var mode = 1;
+			if(editMode.selectedIndex == "1"){
+				mode = 1;
+			}
+			else if(editMode.selectedIndex == "0"){
+				mode = 0;
+			}
 			const apiUrl = 'https://cplmfbqnxpb4s2t43npejlbjrq0nhyyh.lambda-url.us-east-1.on.aws/'
 			var imageUrl = document.getElementById("tagEditURL").value;
-			var tagInput = document.getElementById("tagInput").value;
-			var tagNumber = document.getElementById("tagNumber").value;
-			const data = {
-				body:
-				{
-					"url": 'https://bucket-for-images-5225.s3.amazonaws.com/v2-3be05963f5f3753a8cb75b6692154d4a_1440w.jpg', 
-					"type": 1, 
-					"tags": [
-						{
-							"tag" : 'car', 
-							"count" : 1,
-						}
-					]
-				},
+			var tagInput1 = document.getElementById("tagInput1").value;
+			var tagNumber1 = document.getElementById("tagNumber1").value;
+			var tagInput2 = document.getElementById("tagInput2").value;
+			var tagNumber2 = document.getElementById("tagNumber2").value;
+			var tagInput3 = document.getElementById("tagInput3").value;
+			var tagNumber3 = document.getElementById("tagNumber3").value;
+			if(tagInput2==""&&tagInput3==""){
+				var data= {
+					body:
+					{
+						"url": imageUrl, 
+						"type": mode, 
+						"tags": [
+							{
+								"tag" : tagInput1, 
+								"count" : Number(tagNumber1),
+							}
+						]
+					},
+                }
+			}
+			else if(tagInput3==""){
+				var data= {
+					body:
+					{
+						"url": imageUrl, 
+						"type": mode, 
+						"tags": [
+							{
+								"tag" : tagInput1, 
+								"count" : Number(tagNumber1),
+							},
+							{
+								"tag" : tagInput2, 
+								"count" : Number(tagNumber2),
+							}
+						]
+					},
+                }
+			}
+			else{
+				var data= {
+					body:
+					{
+						"url": imageUrl, 
+						"type": mode, 
+						"tags": [
+							{
+								"tag" : tagInput3, 
+								"count" : Number(tagNumber3),
+							},
+							{
+								"tag" : tagInput1, 
+								"count" : Number(tagNumber1),
+							},
+							{
+								"tag" : tagInput2, 
+								"count" : Number(tagNumber2),
+							}
+						]
+					},
+                }
 			};
 			console.log(JSON.stringify(data));
 			fetch(apiUrl, {
@@ -134,10 +187,12 @@
             }).then(res => res.json())
 			.then(res => {
 				document.getElementById("tagEditURL").value = "";
-				document.getElementById("tagInput").value = "";
+				document.getElementById("tagInput1").value = "";
+				document.getElementById("tagInput2").value = "";
+				document.getElementById("tagInput3").value = "";
 				console.log(res);
 			})
-			
+
 		}
 		
 		function imageDelete() {
