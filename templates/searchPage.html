@@ -24,6 +24,11 @@
 	.jumbotron {
 		background-color: rgba(255,255,255,0.6);
 	 }
+	 #imagepreview {
+		width: 300px;
+		height: 200px;
+	}
+	
 </style>
   <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -157,7 +162,7 @@
 						
 							
 							<div class="image-preview-section">
-								<img id="imagePreview" src="" alt="" />
+								<img id="imagePreview" src="" alt="" style="width: 700px; height: auto;" />
 							</div>
 						</div>
 					</div>
@@ -229,7 +234,12 @@
 				body: JSON.stringify(data)
 			}).then(response => response.json())
 			.then(data => {
-				console.log(data.links); 
+				if(data.links == "No tags detected.")
+				{
+					alert("Can't be found!");
+				}
+				else
+					console.log(data.links); 
 			})
 			.catch(error => console.error('Error:', error));;
 		}
