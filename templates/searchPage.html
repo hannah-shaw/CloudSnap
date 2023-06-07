@@ -240,7 +240,10 @@
 			.then(data => {
 				if(data.links == "No tags detected.")
 				{
-					alert("Can't be found!");
+					alert("Can't be found!(No tags detected)");
+				}
+				else if(data.links == "There is no matching image."){
+					alert("Can't be found!(There is no matching image)");
 				}
 				else{
 					document.getElementById("imageSearchOutput").innerHTML = "Output: " + "<br>";
