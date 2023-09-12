@@ -8,3 +8,6 @@ This work aims to build a cloud-based online system that allows users to store a
 In the project directory, you can run:
 ### python web.py
 and open http://localhost:8080 to view it in your browser.
+
+## Architecture Diagram
+![image1](cloudsnap.drawio.png)
